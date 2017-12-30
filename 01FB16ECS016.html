@@ -1,0 +1,279 @@
+<html>
+<head>
+<style>
+
+table{
+border-color:white;
+}
+h1{padding:10px;
+margin:0;
+position:absolute;
+top:0px;
+left:0px;
+width:100%;
+background-color: #333;
+color:white}
+center{
+position:absolute;
+top:80px;
+left:450px;
+}
+button{
+background-color:#333;
+padding:6px;
+width:100px;
+color:white;
+}
+</style>
+</head>
+
+
+<body style="background-color:FFE633">
+<h1 align="center">TIC TAC TOE</h1>
+<h2>GAME ON</h2>
+<center>
+<h2 id="t">GAME ON !!</h2>
+<table border=0>
+<td>
+<table border=1>
+<tr>
+<td><a href="javascript:clicked('A')"><img src="blank.jpg" border=0 height=135 width=135 id='A' alt="Top-Left"></a></td>
+<td><a href="javascript:clicked('B')"><img src="blank.jpg" border=0 height=135 width=135 id='B' alt="Top-Center"></a></td>
+<td><a href="javascript:clicked('C')"><img src="blank.jpg" border=0 height=135 width=135 id='C' alt="Top-Right"></a></td>
+</tr>
+<tr>
+<td><a href="javascript:clicked('D')"><img src="blank.jpg" border=0 height=135 width=135 id='D' alt="Middle-Left"></a></td>
+<td><a href="javascript:clicked('E')"><img src="blank.jpg" border=0 height=135 width=135 id='E' alt="Middle-Center"></a></td>
+<td><a href="javascript:clicked('F')"><img src="blank.jpg" border=0 height=135 width=135 id='F' alt="Middle-Right"></a></td>
+</tr>
+<tr>
+<td><a href="javascript:clicked('G')"><img src="blank.jpg" border=0 height=135 width=135 id='G' alt="Bottom-Left"></a></td>
+<td><a href="javascript:clicked('H')"><img src="blank.jpg" border=0 height=135 width=135 id='H' alt="Bottom-Center"></a></td>
+<td><a href="javascript:clicked('I')"><img src="blank.jpg" border=0 height=135 width=135 id='I' alt="Bottom-Right"></a></td>
+</tr>
+</table>
+</td>
+
+<table>
+</table>
+
+</br>
+<form name=game>
+<b>SCOREBOARD : Player 1 : </b><input type=text size=5 id="t1" name=you value="0" readonly>
+<b>Player 2 : </b><input type=text size=5 id="t2" name=computer value="0" readonly>
+<b>Draws : </b><input type=text id="t3" size=5 name=ties value="0" readonly>
+
+</br>
+</form>
+<button id="replay" onclick="playAgain()">Play Again</button>
+<button onclick="showinstructions()">Show Rules</button>
+<button onclick="removeinstructions()">Hide Rules</button>
+<button onclick="quitgame()">Quit Game</button>
+
+</center>
+
+
+<script>
+
+
+var blkpics="file:///home/abhishekn/Desktop/blank.jpg";
+var xpics="file:///home/abhishekn/Desktop/x.jpg";
+var opics="file:///home/abhishekn/Desktop/o.jpg";
+
+
+var p1=0;p2=0,d=0;
+var xpic = "x.jpg";
+var opic = "o.jpg";
+var blankpic = "blank.jpg";
+function showinstructions() {
+var f=document.createElement("fieldset");
+f.id="f";
+var l=document.createElement("legend");
+l.textContent="Rules : ";
+l.style.fontSize="25px";
+var u=document.createElement("ul");
+var li1=document.createElement("li");
+li1.textContent="Welcome to the Tic-Tac-Toe Game! Player 1 plays as X and Player 2 as O.";
+var li2=document.createElement("li");
+li2.textContent="Players get to Select the square in which they want to place X or O into by clicking them alternatingly one after the other with Player 1 starting as First.";
+var li3=document.createElement("li");
+li3.textContent=" Occupying a square that is already occupied is prohibited.";
+var li4=document.createElement("li");
+li4.textContent=" The first player among the two to get three squares in a row wins. Each player gets to start a new game alternatingly.";
+var li5=document.createElement("li");
+li5.textContent="Wishing you All the Best! May the game begin.";
+li1.style.fontSize="25px";
+u.appendChild(li1);
+li2.style.fontSize="25px";
+u.appendChild(li2);
+li3.style.fontSize="25px";
+u.appendChild(li3);
+li4.style.fontSize="25px";
+u.appendChild(li4);
+li5.style.fontSize="25px";
+u.appendChild(li5);
+f.appendChild(l);
+var b=document.createElement("br");
+f.appendChild(b);
+f.appendChild(b);
+f.appendChild(u);
+f.style.position="absolute";
+f.style.width="550px";
+f.style.height="500px";
+f.style.top="60px";
+f.style.left="350px";
+f.style.backgroundColor="#FFE633";
+f.style.color="#333";
+f.style.zIndex=1;
+document.body.appendChild(f);
+
+}
+var t=document.getElementById("t");
+function removeinstructions()
+{
+var f=document.getElementById("f");
+if(f)
+document.body.removeChild(f);
+}
+function clicked(a)
+{
+var cell=document.getElementById(a);
+
+if(count%2==0 && cell.src==blkpics)
+{
+t.textContent="Player 2's Turn";
+cell.setAttribute("src",xpic);count++;check();
+}
+if(count%2!=0 && cell.src==blkpics)
+{
+t.textContent="Player 1's Turn";
+cell.setAttribute("src",opic);count++;check();
+}
+
+}
+
+function enable()
+{
+var c='A';
+var a=document.querySelectorAll("a");
+for(var i=0;i<a.length;i++)
+{
+var c1=String.fromCharCode(c.charCodeAt(0)+i);
+a[i].setAttribute("href","javascript:clicked(\'"+c1+"\')");
+}
+}
+
+function disable()
+{
+var a=document.querySelectorAll("a");
+for(var i=0;i<a.length;i++)
+{
+a[i].setAttribute("href","#");
+}
+}
+var count=0;
+
+
+function playAgain()
+{
+var c="A";
+t.textContent="GAME ON !!";
+for(var i=0;i<9;i++)
+{
+var c1=String.fromCharCode(c.charCodeAt(0)+i);
+var cell=document.getElementById(c1);
+
+cell.setAttribute("src",blankpic);
+
+}
+enable();
+}
+
+function checkDraw()
+{
+var c="A",flag=0;
+for(var i=0;i<9;i++)
+{
+var c1=String.fromCharCode(c.charCodeAt(0)+i);
+var cell=document.getElementById(c1);
+if(cell.src==blkpics)
+{
+flag=1;break;
+}
+}
+if(flag==1)
+return 0;
+else
+return 1;
+}
+
+function check()
+{
+
+var win1=0,win2=0;
+
+var win_combinations=[['A','B','C'],['D','E','F'],['G','H','I'],['A','D','G'],['B','E','H'],['C','F','I'],['A','E','I'],['C','E','G']];
+for(var i=0;i<win_combinations.length;i++)
+{
+   var box1=document.getElementById(win_combinations[i][0]);
+   var box2=document.getElementById(win_combinations[i][1]);
+   var box3=document.getElementById(win_combinations[i][2]);
+   if(box1.src==xpics && box2.src==xpics && box3.src==xpics)
+{
+  win1=1;
+   disable();
+p1++;
+var t1=document.getElementById("t1");
+t1.value=p1;
+   break;
+}
+if(box1.src==opics && box2.src==opics && box3.src==opics)
+{
+  win2=1;
+    disable();
+p2++;
+var t2=document.getElementById("t2");
+t2.value=p2;
+
+   break;
+}
+}
+if(win1==1)
+t.textContent="Game Over!! Player 1 Wins !!";
+if(win2==1)
+t.textContent="Game Over!! Player 2 Wins !!";
+if(checkDraw()==1 && win1!=1 && win2!=1)
+{
+
+t.textContent="Game Over!! Tie between Player 1 and Player 2 !!";
+var t3=document.getElementById("t3");
+d++;
+t3.value=d;
+}
+}
+
+function quitgame()
+{
+var t1=document.getElementById("t1");
+var t2=document.getElementById("t2");
+var t3=document.getElementById("t3");
+var f=confirm("Player 1's Score : "+t1.value+" Player 2's Score : "+t2.value+"\n Are you sure you want to quit?");
+if(f==true)
+{
+var t1=document.getElementById("t1");
+var t2=document.getElementById("t2");
+var t3=document.getElementById("t3");
+t1.value="0";
+t2.value="0";
+t3.value="0";
+t.textContent="GAME ON !!";
+playAgain();
+}
+else
+    return; 
+}
+    
+
+</script>
+</body>
+<html>
